@@ -28,5 +28,12 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, "BENAR!", Toast.LENGTH_SHORT).show();
             }
         });
+
+        falseButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(MainActivity.this, "SALAH DIG!", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }
