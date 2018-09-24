@@ -31,8 +31,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         //text view
         question = findViewById(R.id.question);
-        int questionResId = mQuestionBank[mCurrentIndex].getTextResId();
-        question.setText(questionResId);
+        updateQuestion();
         //button
         trueButton = findViewById(R.id.true_button);
         falseButton = findViewById(R.id.false_button);
@@ -56,13 +55,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             case R.id.next_button:
                 mCurrentIndex = (mCurrentIndex + 1) % mQuestionBank.length;
-                int questionResId = mQuestionBank[mCurrentIndex].getTextResId();
-                question.setText(questionResId);
+                updateQuestion();
                 break;
         }
     }
 
     public void showToastMsg(String msg) {
         Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
+    }
+
+    public void updateQuestion(){
+        question.setText(mQuestionBank[mCurrentIndex].getTextResId());
     }
 }
