@@ -53,6 +53,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.false_button:
                 showToastMsg("SALAH DIG!");
                 break;
+
+            case R.id.next_button:
+                mCurrentIndex = (mCurrentIndex + 1) % mQuestionBank.length;
+                int questionResId = mQuestionBank[mCurrentIndex].getTextResId();
+                question.setText(questionResId);
+                break;
         }
     }
 
