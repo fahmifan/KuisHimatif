@@ -31,6 +31,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         //text view
         question = findViewById(R.id.question);
+        int questionResId = mQuestionBank[mCurrentIndex].getTextResId();
+        question.setText(questionResId);
         //button
         trueButton = findViewById(R.id.true_button);
         falseButton = findViewById(R.id.false_button);
