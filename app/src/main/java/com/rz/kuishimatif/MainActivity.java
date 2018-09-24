@@ -44,12 +44,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch(v.getId()){
             case R.id.true_button:
-                Toast.makeText(MainActivity.this, "BENAR!", Toast.LENGTH_SHORT).show();
+                showToastMsg("BENAR!");
                 break;
 
             case R.id.false_button:
-                Toast.makeText(MainActivity.this, "SALAH DIG!", Toast.LENGTH_SHORT).show();
+                showToastMsg("SALAH DIG!");
                 break;
         }
+    }
+
+    public void showToastMsg(String msg){
+        Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
     }
 }
