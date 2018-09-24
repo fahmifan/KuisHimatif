@@ -5,6 +5,9 @@
     <string name="false_button">False</string>
     <string name="next_button">Next>></string>
 
+    <string name="correct_toast">BENAR!</string>
+    <string name="incorrect_toast">SALAH DIG!</string>
+
     <string name="q_ketua_himatif">Ketua Himatif pertama adalah Kang Faishal Din</string>
     <string name="q_ketua_devcom">Ketua devcom pertama adalah Arie Brian</string>
     <string name="q_kaprodi">Kaprodi TI Unpad adalah Pak Setiawan Hadi</string>

@@ -46,11 +46,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.true_button:
-                showToastMsg("BENAR!");
+                checkAnswer(true);
                 break;
 
             case R.id.false_button:
-                showToastMsg("SALAH DIG!");
+                checkAnswer(false);
                 break;
 
             case R.id.next_button:
@@ -60,11 +60,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    public void showToastMsg(String msg) {
-        Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
+    public void showToastMsg(int msgId) {
+        Toast.makeText(MainActivity.this, msgId, Toast.LENGTH_SHORT).show();
     }
 
-    public void updateQuestion(){
+    public void updateQuestion() {
         question.setText(mQuestionBank[mCurrentIndex].getTextResId());
+    }
+
+    private void checkAnswer(boolean kondisi) {
+        boolean answer = mQuestionBank[mCurrentIndex].getAnswer();
+        int messageResId = (kondisi == answer) ?
+                R.string.correct_toast : R.string.incorrect_toast;
+        showToastMsg(messageResId);
     }
 }
