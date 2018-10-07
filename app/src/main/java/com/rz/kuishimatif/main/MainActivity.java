@@ -1,4 +1,4 @@
-package com.rz.kuishimatif.controller;
+package com.rz.kuishimatif.main;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,8 +9,15 @@ import android.widget.Toast;
 
 import com.rz.kuishimatif.R;
 import com.rz.kuishimatif.model.Question;
+import com.rz.kuishimatif.repository.QuizRepo;
+import com.rz.kuishimatif.repository.QuizRepoImpl;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends AppCompatActivity implements
+        MainContract.View, View.OnClickListener {
+
+    // Dependencies
+    MainContract.Presenter presenter;
+    QuizRepo quizRepo;
 
     TextView question;
 
@@ -18,24 +25,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Button falseButton;
     Button nextButton;
 
-    private int mCurrentIndex = 0;
-    private Question[] mQuestionBank = new Question[]{
-            new Question(R.string.q_ketua_himatif, true),
-            new Question(R.string.q_ketua_devcom, false),
-            new Question(R.string.q_kaprodi, false)
-    };
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        quizRepo =  new QuizRepoImpl();
+
+        // we did a DI (dependency injection)
+        // `this` is refer to implementor of MainContract.View
+        presenter = new MainPresenter(this, quizRepo);
+
         //text view
         question = findViewById(R.id.question);
-        updateQuestion();
+        presenter.showQuestion();
+
         //button
         trueButton = findViewById(R.id.true_button);
         falseButton = findViewById(R.id.false_button);
         nextButton = findViewById(R.id.next_button);
+
         //listener
         trueButton.setOnClickListener(this);
         falseButton.setOnClickListener(this);
@@ -46,32 +55,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.true_button:
-                checkAnswer(true);
+                presenter.checkAnswer(true);
                 break;
 
             case R.id.false_button:
-                checkAnswer(false);
+                presenter.checkAnswer(false);
                 break;
 
             case R.id.next_button:
-                mCurrentIndex = (mCurrentIndex + 1) % mQuestionBank.length;
-                updateQuestion();
+                presenter.showQuestion();
                 break;
         }
     }
 
-    public void showToastMsg(int msgId) {
-        Toast.makeText(MainActivity.this, msgId, Toast.LENGTH_SHORT).show();
+    @Override
+    public void showQuestion(Question question) {
+        this.question.setText(question.getTextResId());
     }
 
-    public void updateQuestion() {
-        question.setText(mQuestionBank[mCurrentIndex].getTextResId());
-    }
+    @Override
+    public void showAnswerResponse(boolean correct) {
+        int msgID = correct ? R.string.correct_toast : R.string.incorrect_toast;
 
-    private void checkAnswer(boolean kondisi) {
-        boolean answer = mQuestionBank[mCurrentIndex].getAnswer();
-        int messageResId = (kondisi == answer) ?
-                R.string.correct_toast : R.string.incorrect_toast;
-        showToastMsg(messageResId);
+        Toast.makeText(MainActivity.this, msgID, Toast.LENGTH_SHORT).show();
     }
 }
